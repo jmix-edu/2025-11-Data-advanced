@@ -22,6 +22,7 @@ import javax.sql.DataSource;
 @Push
 @Theme(value = "jmix-pm-data")
 @SpringBootApplication
+@PWA(name = "Jmix PM", shortName = "Jmix PM")
 public class JmixPmDataApplication implements AppShellConfigurator {
 
     @Autowired
