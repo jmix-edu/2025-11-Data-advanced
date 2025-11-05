@@ -1,13 +1,22 @@
 package com.company.jmixpmdata.entity;
 
 import com.company.jmixpmdata.datatype.ProjectLabels;
-import com.company.jmixpmdata.datatype.ProjectLabelsConverter;
+import com.company.jmixpmdata.validation.ProjectLabelsSize;
+import com.company.jmixpmdata.validation.ValidDateProject;
+import io.jmix.core.DeletePolicy;
+import io.jmix.core.annotation.DeletedBy;
+import io.jmix.core.annotation.DeletedDate;
 import io.jmix.core.entity.annotation.JmixGeneratedValue;
-import io.jmix.core.metamodel.annotation.*;
+import io.jmix.core.entity.annotation.OnDeleteInverse;
+import io.jmix.core.metamodel.annotation.Composition;
+import io.jmix.core.metamodel.annotation.InstanceName;
+import io.jmix.core.metamodel.annotation.JmixEntity;
+import io.jmix.core.metamodel.annotation.JmixProperty;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 
 import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -15,16 +24,20 @@ import java.util.UUID;
 @Table(name = "PROJECT", indexes = {
         @Index(name = "IDX_PROJECT_MANAGER", columnList = "MANAGER_ID"),
         @Index(name = "IDX_PROJECT_ROADMAP", columnList = "ROADMAP_ID")
+}, uniqueConstraints = {
+        @UniqueConstraint(name = "IDX_PROJECT_UNQ_NAME", columnNames = {"NAME"})
 })
 @Entity
+@ValidDateProject
 public class Project {
     @JmixGeneratedValue
     @Column(name = "ID", nullable = false)
     @Id
     private UUID id;
 
-//    @PropertyDatatype("projectLabels")
+    //    @PropertyDatatype("projectLabels")
 //    @Convert(converter = ProjectLabelsConverter.class)
+    @ProjectLabelsSize(min = 3, max = 5)
     @Column(name = "LABELS")
     private ProjectLabels labels;
 
@@ -54,6 +67,7 @@ public class Project {
     @ManyToMany
     private List<User> participants;
 
+    @OnDeleteInverse(DeletePolicy.DENY)
     @Composition
     @OneToMany(mappedBy = "project")
     private List<Task> tasks;
@@ -62,6 +76,30 @@ public class Project {
     @NotNull
     @OneToOne(fetch = FetchType.LAZY, optional = false)
     private Roadmap roadmap;
+
+    @DeletedBy
+    @Column(name = "DELETED_BY")
+    private String deletedBy;
+
+    @DeletedDate
+    @Column(name = "DELETED_DATE")
+    private OffsetDateTime deletedDate;
+
+    public OffsetDateTime getDeletedDate() {
+        return deletedDate;
+    }
+
+    public void setDeletedDate(OffsetDateTime deletedDate) {
+        this.deletedDate = deletedDate;
+    }
+
+    public String getDeletedBy() {
+        return deletedBy;
+    }
+
+    public void setDeletedBy(String deletedBy) {
+        this.deletedBy = deletedBy;
+    }
 
     public ProjectLabels getLabels() {
         return labels;
