@@ -12,7 +12,7 @@
             </loader>
             <properties>
                 <property name="assignee" class="com.company.jmixpmdata.entity.User"/>
-                <property name="estimatedEfforts" datatype="integer"/>
+                <property name="estimatedEfforts" datatype="long"/>
             </properties>
         </keyValueCollection>
     </data>

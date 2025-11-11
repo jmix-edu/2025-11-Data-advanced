@@ -5,7 +5,9 @@ import com.company.jmixpmdata.app.ProjectService;
 import com.company.jmixpmdata.datatype.ProjectLabels;
 import com.company.jmixpmdata.entity.Project;
 import com.company.jmixpmdata.entity.Roadmap;
+import com.company.jmixpmdata.entity.User;
 import com.company.jmixpmdata.view.main.MainView;
+import com.company.jmixpmdata.view.user.UserListView;
 import com.vaadin.flow.component.ClickEvent;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.notification.NotificationVariant;
@@ -92,6 +94,13 @@ public class ProjectDetailView extends StandardDetailView<Project> {
                 .withThemeVariant(NotificationVariant.LUMO_WARNING)
                 .show();
     }
+
+    @Install(to = "participantsDataGrid.addAction", subject = "viewConfigurer")
+    private void participantsDataGridAddActionViewConfigurer(final UserListView userListView) {
+        userListView.setFilterProject(getEditedEntity());
+    }
+
+
 
 
 }

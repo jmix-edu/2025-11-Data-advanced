@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<view xmlns="http://jmix.io/schema/flowui/view"
+      xmlns:c="http://jmix.io/schema/flowui/jpql-condition"
+      title="msg://customSearchView.title">
+    <data>
+        <collection id="projectsDc" class="com.company.jmixpmdata.entity.Project">
+            <loader id="projectsDl" readOnly="true">
+                <query>
+                    <![CDATA[select e from Project e]]>
+                </query>
+            </loader>
+            <fetchPlan extends="_base"/>
+        </collection>
+        <collection id="tasksDc" class="com.company.jmixpmdata.entity.Task">
+            <loader id="tasksDl" readOnly="true">
+                <query>
+                    <![CDATA[select e from Task_ e
+                    where e.project = :container_projectsDc]]>
+                </query>
+            </loader>
+            <fetchPlan extends="_base"/>
+        </collection>
+    </data>
+    <facets>
+        <dataLoadCoordinator auto="true">
+            <refresh loader="projectsDl">
+                <onViewEvent type="Ready"/>
+            </refresh>
+        </dataLoadCoordinator>
+    </facets>
+    <layout>
+        <hbox id="tablesBox" width="100%" height="100%">
+            <vbox width="100%"
+                  height="100%"
+                  spacing="true">
+                <entityComboBox id="projectNameField" label="msg://projectNameField.label"
+                                metaClass="Project"
+                                itemsContainer="projectsDc"/>
+            </vbox>
+            <dataGrid id="tasksDataGrid" dataContainer="tasksDc" minWidth="100px" width="100%">
+                <columns>
+                    <column property="name"/>
+                    <column property="startDate"/>
+                    <column property="estimatedEfforts"/>
+                    <column property="label"/>
+                    <column property="closed"/>
+                </columns>
+            </dataGrid>
+        </hbox>
+    </layout>
+</view>
