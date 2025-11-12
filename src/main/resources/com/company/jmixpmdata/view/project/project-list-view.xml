@@ -7,13 +7,16 @@
         <collection id="projectsDc"
                     class="com.company.jmixpmdata.entity.Project">
             <fetchPlan extends="_base">
-                <property name="manager" fetchPlan="_instance_name"/>
+                <property name="manager" fetchPlan="_base"/>
                 <property name="roadmap" fetchPlan="_base"/>
             </fetchPlan>
-            <loader id="projectsDl" readOnly="true">
+            <loader id="projectsDl" readOnly="true" cacheable="true">
                 <query>
                     <![CDATA[select e from Project e]]>
                 </query>
+<!--                <query>-->
+<!--                    <![CDATA[select e from Project e where e.status = @enum(com.company.jmixpmdata.entity.ProjectStatus.NEW)]]>-->
+<!--                </query>-->
             </loader>
         </collection>
     </data>

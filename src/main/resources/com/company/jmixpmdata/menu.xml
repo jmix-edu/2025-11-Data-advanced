@@ -12,6 +12,7 @@
         <item view="ProjectStatsView" title="msg://com.company.jmixpmdata.view.projectstats/projectStatsView.title"/>
         <item view="WorkloadView" title="msg://com.company.jmixpmdata.view.workload/workloadView.title"/>
         <item view="CustomSearchView" title="msg://com.company.jmixpmdata.view.customsearch/customSearchView.title"/>
+        <item view="Task_repo.list" title="msg://com.company.jmixpmdata.view.task/taskListViewRepo.title"/>
     </menu>
 
 </menu-config>
